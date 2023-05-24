@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model booking {
+  booking_id   String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  booking_date DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  movie_id     BigInt?
+  theatre_id   BigInt?
+  show_id      BigInt?
+  user_id      BigInt?
+  movies       movies?   @relation(fields: [movie_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shows        shows?    @relation(fields: [show_id], references: [show_id], onDelete: NoAction, onUpdate: NoAction)
+  theatre      theatre?  @relation(fields: [theatre_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customer     customer? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model customer {
+  id           BigInt    @id @default(autoincrement())
+  name         String
+  email        String?
+  phone_number Int?      @db.SmallInt
+  booking      booking[]
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model movies {
+  id           BigInt    @id @default(autoincrement())
+  inserted_at  DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at   DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  name         String    @db.VarChar(200)
+  description  String?
+  movie_length Int?      @db.SmallInt
+  rating       Int?      @db.SmallInt
+  booking      booking[]
+}
+
+model shows {
+  show_id     BigInt    @id @default(autoincrement())
+  seat_id     BigInt
+  screen_id   BigInt
+  theatre_id  BigInt?
+  inserted_at DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at  DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  name        String?
+  booking     booking[]
+  theatre     theatre?  @relation(fields: [theatre_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@unique([seat_id, screen_id, theatre_id])
+}
+
+model theatre {
+  id          BigInt    @id @default(autoincrement())
+  inserted_at DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at  DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  name        String
+  longitude   Float
+  latitude    Float
+  booking     booking[]
+  shows       shows[]
+}
+
+enum Role {
+  USER
+  ADMIN
+}
