@@ -5,8 +5,6 @@ export default function MovieCard({
 }: {
   name: string;
   movie_poster: string;
-  movie_background: string;
-  movie_length: number;
 }) {
   return (
     <>

@@ -37,8 +37,8 @@ model movies {
   description             String?
   movie_length            Int?      @db.SmallInt
   rating                  Int?      @db.SmallInt
-  movie_poster            String?
-  movie_background_poster String?
+  movie_poster            String
+  movie_background_poster String
   booking                 booking[]
 }
 

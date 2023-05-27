@@ -30,8 +30,6 @@ export default async function Home() {
               <Link href={`movies/${movie.id}`} key={randomUUID()}>
                 <MovieCard
                   name={movie.name}
-                  movie_length={movie.movie_length}
-                  movie_background={movie.movie_background_poster}
                   movie_poster={movie.movie_poster}
                 />
               </Link>
