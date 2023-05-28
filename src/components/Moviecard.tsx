@@ -7,8 +7,14 @@ export default function MovieCard({
   movie_poster: string;
 }) {
   return (
-    <>
-      <Image src={movie_poster} width={400} height={600} alt={name} />
-    </>
+    <div className="rounded-md w-16 mb-2 h-60 md:w-[224px] md:h-[336px]  overflow-hidden ">
+      <Image
+        src={movie_poster}
+        width={400}
+        height={600}
+        alt={name}
+        className="object-cover "
+      />
+    </div>
   );
 }
