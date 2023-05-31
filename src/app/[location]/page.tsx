@@ -1,5 +1,6 @@
+import Header from "@/components/header";
 import MovieCard from "@/components/Moviecard";
-import { prisma } from "../lib/server";
+import { prisma } from "../../lib/server";
 import Link from "next/link";
 import Image from "next/image";
 import { randomUUID } from "crypto";
@@ -15,10 +16,15 @@ async function getMovies(userLocation: string) {
       },
     },
   });
+
   return movies;
 }
-export default async function Home() {
-  const movies = await getMovies("hyderabad");
+export default async function Home({
+  params,
+}: {
+  params: { location: string };
+}) {
+  const movies = await getMovies(params.location);
   return (
     <>
       <main>
@@ -34,9 +40,12 @@ export default async function Home() {
         </div>
         <Suspense>
           <section>
-            <div className="max-w-md mx-auto  md:max-w-full gap-2 md:flex md:justify-center ">
+            <div className="max-w-md mx-4  md:max-w-full gap-2 md:flex  md:justify-start ">
               {movies.map((movie) => (
-                <Link href={`movies/${movie.id}`} key={randomUUID()}>
+                <Link
+                  href={`${params.location}/movies/${movie.id}`}
+                  key={randomUUID()}
+                >
                   <MovieCard
                     name={movie.name}
                     movie_poster={movie.movie_poster}
