@@ -7,7 +7,7 @@ export default function MovieCard({
   movie_poster: string;
 }) {
   return (
-    <div className="rounded-md w-16 mb-2 h-60 md:w-[224px] md:h-[336px]  overflow-hidden ">
+    <div className="rounded-md w-3/5 mb-2 h-60 md:w-[224px] md:h-[336px]  overflow-hidden ">
       <Image
         src={movie_poster}
         width={400}
