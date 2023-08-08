@@ -3,6 +3,9 @@ const nextConfig = {
   images: {
     domains: ["assets-in.bmscdn.com"],
   },
+  experimental: {
+    serverActions: true,
+  },
   async redirects() {
     return [
       {

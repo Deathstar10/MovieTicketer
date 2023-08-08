@@ -6,17 +6,28 @@ import Image from "next/image";
 import { randomUUID } from "crypto";
 import { Suspense } from "react";
 
-async function getMovies(userLocation: string) {
-  const movies = await prisma.movies.findMany({
-    where: {
-      movie_locations: {
-        some: {
-          location: userLocation.toLowerCase(),
-        },
-      },
-    },
-  });
+interface movie {
+  id: number;
+  inserted_at: Date;
+  updated_at: Date;
+  name: string;
+  description: string;
+  movie_length: number;
+  rating: number;
+  movie_poster: string;
+  movie_background_poster: string;
+}
 
+async function getMovies(userLocation: string) {
+  const movies: movie[] = await prisma.$queryRaw`
+    select movies.*
+    from
+    movies
+    join movie_locations on movie_locations.movie_id = movies.id
+    join locations on locations.id = movie_locations.location_id
+  where
+  locations.name = ${userLocation.toLowerCase()};
+  `;
   return movies;
 }
 export default async function Home({

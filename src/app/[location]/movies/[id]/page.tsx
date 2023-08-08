@@ -22,6 +22,7 @@ export default async function Page({
   if (!data) {
     return <p>Error retrieving the movie</p>;
   }
+
   return (
     <>
       <nav className="flex justify-between bg-[#222539] text-white py-2">
@@ -107,9 +108,11 @@ export default async function Page({
                   Crime,Thriller . UA . 18 th May, 2023
                 </p>
               </div>
-              <button className="bg-[#f84464] text-white rounded-md px-10 py-2">
-                Book Tickets
-              </button>
+              <Link href={`/${params.location}/movies/${params.id}/booking`}>
+                <button className="bg-[#f84464] text-white rounded-md px-10 py-2">
+                  Book Tickets
+                </button>
+              </Link>
             </div>
           </div>
         </Suspense>

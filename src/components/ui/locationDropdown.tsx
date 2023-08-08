@@ -14,7 +14,13 @@ export default function Dropdown() {
   const router = useRouter();
 
   useEffect(() => {
-    router.push(`/${userLocation}`);
+    // TODO : whenever the user navigates a sub route of location,
+    //  ensure that he is not routed the location page
+    if (window.location.pathname.includes("booking")) {
+      console.log("routing to bookings");
+    } else {
+      router.push(`/${userLocation}`);
+    }
   }, [userLocation, router]);
 
   return (
