@@ -3,9 +3,9 @@
 export default function NavPopOver() {
   return (
     <>
-      <div className="h-full w-24 z-10">
-        <ul className="absolute w-3/5 md:w-1/5 h-screen inset-y-0 right-0  bg-white text-black  transition-all">
-          <li className="bg-[#2e3147] py-6 px-2 font-bold text-white flex">
+      <div className="h-full w-24 sm:w-3/5 z-10">
+        <ul className="absolute w-3/5 md:w-2/5 h-screen inset-y-0 right-0  bg-white text-black  transition-all z-10">
+          <li className="bg-[#2e3147] py-6 px-4 font-bold text-white flex ">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -22,8 +22,7 @@ export default function NavPopOver() {
             </svg>
             <p className="pl-2">Hey!</p>
           </li>
-          <li className="flex py-4 pl-2">
-            {" "}
+          <li className="flex py-4 pl-2 ml-2">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +41,7 @@ export default function NavPopOver() {
             </span>
             <p className="pl-2">Notifications</p>
           </li>
-          <li className="flex py-4 pl-2">
+          <li className="flex py-4 pl-2 ml-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -59,7 +58,7 @@ export default function NavPopOver() {
             </svg>
             <p className="pl-2">Your Orders</p>
           </li>
-          <li className="flex py-4 pl-2">
+          <li className="flex py-4 pl-2 ml-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -76,7 +75,7 @@ export default function NavPopOver() {
             </svg>
             <p className="pl-2">Stream library</p>
           </li>
-          <li className="flex py-4 pl-2">
+          <li className="flex py-4 pl-2 ml-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -93,7 +92,7 @@ export default function NavPopOver() {
             </svg>
             <p className="pl-2">Play credit card</p>
           </li>
-          <li className="flex py-4 pl-2">
+          <li className="flex py-4 pl-2 ml-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -110,7 +109,7 @@ export default function NavPopOver() {
             </svg>
             <p className="pl-2">help & Support</p>
           </li>
-          <li className="flex py-4 pl-2">
+          <li className="flex py-4 pl-2 ml-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -132,7 +131,7 @@ export default function NavPopOver() {
             </svg>
             <p className="pl-2">Account & Settings</p>
           </li>
-          <li className="flex py-4 pl-2">
+          <li className="flex py-4 pl-2 ml-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"

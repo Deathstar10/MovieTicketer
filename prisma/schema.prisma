@@ -7,19 +7,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model booking {
-  booking_id   String    @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  booking_date DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  movie_id     BigInt?
-  theatre_id   BigInt?
-  show_id      BigInt?
-  user_id      BigInt?
-  movies       movies?   @relation(fields: [movie_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  shows        shows?    @relation(fields: [show_id], references: [show_id], onDelete: NoAction, onUpdate: NoAction)
-  theatre      theatre?  @relation(fields: [theatre_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  customer     customer? @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
-}
-
 model customer {
   id           BigInt    @id @default(autoincrement())
   name         String
@@ -41,41 +28,86 @@ model movies {
   movie_background_poster String
   booking                 booking[]
   movie_locations         movie_locations[]
+  movie_releases          movie_releases[]
+  shows                   shows[]
 }
 
 model shows {
-  show_id     BigInt    @id @default(autoincrement())
-  seat_id     BigInt
-  screen_id   BigInt
-  theatre_id  BigInt?
-  inserted_at DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  updated_at  DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  name        String?
-  booking     booking[]
-  theatre     theatre?  @relation(fields: [theatre_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  screen_id  BigInt
+  theatre_id BigInt?
+  seats      Int       @db.SmallInt
+  movie_id   BigInt?
+  show_id    BigInt    @id @unique @default(autoincrement())
+  timeSlot   DateTime? @db.Timestamptz(6)
+  seat_id    Int
+  booking    booking[]
+  movies     movies?   @relation(fields: [movie_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  theatre    theatre?  @relation(fields: [theatre_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 
-  @@unique([seat_id, screen_id, theatre_id])
+  @@unique([screen_id, theatre_id, seat_id, timeSlot, movie_id], map: "unique_seats")
 }
 
 model theatre {
-  id          BigInt    @id @default(autoincrement())
-  inserted_at DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  updated_at  DateTime  @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
-  name        String
-  longitude   Float
-  latitude    Float
-  booking     booking[]
-  shows       shows[]
+  id             BigInt           @id @default(autoincrement())
+  inserted_at    DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at     DateTime         @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  name           String
+  longitude      Float
+  latitude       Float
+  location_id    BigInt
+  booking        booking[]
+  movie_releases movie_releases[]
+  shows          shows[]
+  locations      locations        @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
 }
 
 model movie_locations {
-  id       BigInt  @id @default(autoincrement())
-  location String  @db.VarChar(100)
-  movie_id BigInt?
-  movies   movies? @relation(fields: [movie_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  id          BigInt    @id @default(autoincrement())
+  movie_id    BigInt
+  location_id BigInt
+  locations   locations @relation(fields: [location_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  movies      movies    @relation(fields: [movie_id], references: [id], onDelete: Cascade, onUpdate: NoAction)
+}
+
+model movie_releases {
+  id          BigInt   @id @default(autoincrement())
+  inserted_at DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  updated_at  DateTime @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  theatre_id  BigInt?
+  movie_id    BigInt?
+  movies      movies?  @relation(fields: [movie_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  theatre     theatre? @relation(fields: [theatre_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+}
+
+model locations {
+  id              BigInt            @id @default(autoincrement())
+  name            String            @unique
+  movie_locations movie_locations[]
+  theatre         theatre[]
+}
+
+model booking {
+  booking_id String          @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  movie_date DateTime        @default(dbgenerated("timezone('utc'::text, now())")) @db.Timestamptz(6)
+  movie_id   BigInt?
+  theatre_id BigInt?
+  show_id    BigInt?
+  user_id    BigInt?
+  status     booking_status?
+  movies     movies?         @relation(fields: [movie_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  shows      shows?          @relation(fields: [show_id], references: [show_id], onDelete: NoAction, onUpdate: NoAction)
+  theatre    theatre?        @relation(fields: [theatre_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  customer   customer?       @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+enum booking_status {
+  pending
+  cancelled
+  paid
+  rejected
 }

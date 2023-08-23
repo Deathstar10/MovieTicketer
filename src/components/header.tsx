@@ -5,8 +5,8 @@ import Dropdown from "./ui/locationDropdown";
 import Link from "next/link";
 export default function Header() {
   return (
-    <header className="relative">
-      <div className="flex gap-2 bg-[#333545] py-4 pl-4 w-full">
+    <header className="relative bg-primary_background">
+      <div className="flex gap-2  py-4 pl-4 w-full">
         <Link href={"/"}>
           <svg
             viewBox="0 0 88 26"
@@ -31,7 +31,7 @@ export default function Header() {
 
         <div className="w-2/5 flex items-center justify-end gap-2  dark:hover:text-slate-300">
           <Dropdown />
-          <button className="rounded text-white bg-[#f84464] w-20 py-1 px-2 mr-2">
+          <button className="rounded text-white bg-primary w-20 py-1 px-2 mr-2">
             Sign in
           </button>
           <div className="">
