@@ -25,27 +25,6 @@ export default async function Page({
 
   return (
     <>
-      <nav className="flex justify-between bg-[#222539] text-white py-2">
-        <div className="px-2">
-          <ul className="flex gap-4">
-            <li>Movies</li>
-            <li>Stream</li>
-            <li>Events</li>
-            <li>Plays</li>
-            <li>Sports</li>
-            <li>Activities</li>
-            <li>Buzz</li>
-          </ul>
-        </div>
-        <div className="pr-2">
-          <ul className="flex gap-4">
-            <li>List Your Show</li>
-            <li>Corporates</li>
-            <li>Offers</li>
-            <li>Gift cards</li>
-          </ul>
-        </div>
-      </nav>
       <div
         className="h-screen w-full"
         // TODO - Adjust the height of the background image
@@ -59,8 +38,10 @@ export default async function Page({
           <div className="flex relative left-4 top-4 gap-6">
             <MovieCard name={data.name} movie_poster={data.movie_poster} />
             <div>
-              <h1 className="text-white text-4xl font-bold">{data.name}</h1>
-              <p className="flex">
+              <h1 className="text-white text-4xl font-bold mb-2">
+                {data.name}
+              </h1>
+              <p className="flex mb-2">
                 <span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -75,9 +56,8 @@ export default async function Page({
                     />
                   </svg>
                 </span>
-                {data.rating}/10 51.7k votes
               </p>
-              <div className="bg-[#333333] flex justify-between px-2 py-2">
+              <div className="bg-[#333333] flex justify-between px-2 py-2 mb-2">
                 <div>
                   <p className="text-white text-sm">
                     Add your ratings & review
@@ -89,7 +69,7 @@ export default async function Page({
                   Rate Now
                 </button>
               </div>
-              <div className="flex bg-white text-black gap-1">
+              <div className="flex bg-white text-black gap-1 mb-2">
                 <Link href="/">2D</Link>
                 <Link href="/">3D</Link>
                 <Link href="/">4D</Link>
@@ -102,13 +82,16 @@ export default async function Page({
                 <Link href="/">IMAX 2D</Link>
                 <Link href="/">IMAX 3D</Link>
               </div>
-              <div>
+              <div className="mb-2">
                 <p className="text-white">
                   {data.movie_length + " minutes "} Action, Adventure,
                   Crime,Thriller . UA . 18 th May, 2023
                 </p>
               </div>
-              <Link href={`/${params.location}/movies/${params.id}/booking`}>
+              <Link
+                href={`/${params.location}/movies/${params.id}/booking`}
+                className="mb-2"
+              >
                 <button className="bg-[#f84464] text-white rounded-md px-10 py-2">
                   Book Tickets
                 </button>

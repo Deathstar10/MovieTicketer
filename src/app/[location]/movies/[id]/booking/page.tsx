@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/server";
 import { randomUUID } from "crypto";
 import Link from "next/link";
+import FilterShows from "@/components/FilterShows";
 interface theatreData {
   id: number;
   inserted_at: Date;
@@ -42,10 +43,12 @@ function ShowTimeSlots({
   movieId: number;
 }) {
   return theatres.map((theatre) => (
-    <div className="flex gap-2" key={randomUUID()}>
+    <div
+      className="border border-black w-24 px-2 py-1 rounded bg-white text-green-500 "
+      key={randomUUID()}
+    >
       <Link
         href={`/${userLocation}/movies/${movieId}/booking/seatLayout/${theatre.id}`}
-        prefetch={false}
       >
         {theatre?.timeSlot &&
           theatre.timeSlot.toLocaleString("en-US", {
@@ -54,7 +57,6 @@ function ShowTimeSlots({
             hour12: true,
           })}
       </Link>
-      <p>{theatre.screen_id}</p>
     </div>
   ));
 }
@@ -86,20 +88,31 @@ export default async function Booking({
   }
 
   return (
-    <>
+    <div>
+      <div className="w-full h-40 bg-[#333545] flex">
+        <h1 className="text-4xl text-white items-center justify-center pt-4 pl-4">
+          {"Rocky Aur Rani Kii Prem Kahaani"}
+        </h1>
+      </div>
+      <FilterShows />
+
       {shows.map((theatres, index) => {
         return (
-          <>
-            <p key={theatres[index].screen_id}>{theatres[index].name}</p>
-            {/* @ts-expect-error Server Component */}
-            <ShowTimeSlots
-              theatres={theatres}
-              userLocation={params.location}
-              movieId={params.id}
-            />
-          </>
+          <div key={index} className="flex gap-2 items-center px-4 my-2">
+            <p key={theatres[index].screen_id} className="font-semibold">
+              {theatres[index].name}
+            </p>
+            <div className="flex gap-2">
+              {/* @ts-expect-error Server Component */}
+              <ShowTimeSlots
+                theatres={theatres}
+                userLocation={params.location}
+                movieId={params.id}
+              />
+            </div>
+          </div>
         );
       })}
-    </>
+    </div>
   );
 }

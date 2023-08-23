@@ -24,6 +24,26 @@ export default function RootLayout({
         }}
       >
         <Header />
+        <nav className="flex justify-between bg-secondary_background text-white py-2">
+          <div className="px-2">
+            <ul className="flex gap-4">
+              <li>Movies</li>
+              <li>Stream</li>
+              <li>Events</li>
+              <li>Plays</li>
+              <li>Sports</li>
+              <li>Activities</li>
+              <li>Buzz</li>
+            </ul>
+          </div>
+          <div className="pr-2">
+            <ul className="flex gap-4">
+              <li>Corporates</li>
+              <li>Offers</li>
+              <li>Gift cards</li>
+            </ul>
+          </div>
+        </nav>
         {children}
       </body>
     </html>
